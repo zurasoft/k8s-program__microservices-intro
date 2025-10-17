@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: songs-pv
+  namespace: k8s-program
+  labels:
+    app.kubernetes.io/name: songs-microservice
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: manual
+  hostPath:
+    path: /data/songs
+  persistentVolumeReclaimPolicy: Retain

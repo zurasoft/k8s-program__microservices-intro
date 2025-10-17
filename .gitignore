@@ -1,0 +1,39 @@
+# Gradle
+.gradle/
+build/
+**/build/
+gradle-app.setting
+.gradletasknamecache
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+**/out/
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment files (optional)
+.env
+
+# Compiled class files (if not in build/)
+*.class
+
+# Package files (optional - exclude if generated)
+*.jar
+*.war
+*.zip
+*.tar.gz
+
+# Spring Boot specific (optional)
+**/target/

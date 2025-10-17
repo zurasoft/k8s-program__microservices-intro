@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: songs-deployment
+  namespace: k8s-program
+  labels:
+    app.kubernetes.io/name: songs-microservice
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: songs-microservice
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: songs-microservice
+    spec:
+      containers:
+        - name: songs-container
+          image: songs-microservice:1.0.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8081
+          env:
+            - name: SONGS_MS_NAME
+              value: "songs-microservice"
+            - name: SONGS_MS_PORT
+              value: "8081"
+            - name: SONGS_DB_URL
+              value: "songs-db-service"
+            - name: SONGS_DB_PORT
+              value: "5432"
+            - name: ENABLE_EUREKA_CLIENT
+              value: "false"
+          volumeMounts:
+            - name: songs-volume
+              mountPath: /app/data
+      volumes:
+        - name: songs-volume
+          persistentVolumeClaim:
+            claimName: songs-pvc

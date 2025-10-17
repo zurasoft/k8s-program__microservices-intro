@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: songs-service
+  namespace: k8s-program
+  labels:
+    app.kubernetes.io/name: songs-microservice
+spec:
+  type: NodePort
+  selector:
+    app.kubernetes.io/name: songs-microservice
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8081
+      nodePort: 30002
