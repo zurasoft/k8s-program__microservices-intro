@@ -48,11 +48,17 @@ spec:
           volumeMounts:
             - name: songs-db-storage
               mountPath: /var/lib/postgresql/data
+            - name: songs-init-sql
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: songs-init-sql
+          configMap:
+            name: songs-init-sql
   volumeClaimTemplates:
     - metadata:
         name: songs-db-storage
       spec:
-        accessModes: ["ReadWriteOnce"]
+        accessModes: [ "ReadWriteOnce" ]
         storageClassName: hostpath
         resources:
           requests:

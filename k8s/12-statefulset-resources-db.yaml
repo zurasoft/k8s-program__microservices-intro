@@ -48,11 +48,17 @@ spec:
           volumeMounts:
             - name: resources-db-storage
               mountPath: /var/lib/postgresql/data
+            - name: resources-init-sql
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: resources-init-sql
+          configMap:
+            name: resources-init-sql
   volumeClaimTemplates:
     - metadata:
         name: resources-db-storage
       spec:
-        accessModes: ["ReadWriteOnce"]
+        accessModes: [ "ReadWriteOnce" ]
         storageClassName: hostpath
         resources:
           requests:
