@@ -4,7 +4,7 @@ metadata:
   name: songs-pv
   namespace: k8s-program
   labels:
-    app.kubernetes.io/name: songs-microservice
+    storage.kubernetes.io/name: songs-microservice
 spec:
   capacity:
     storage: 1Gi

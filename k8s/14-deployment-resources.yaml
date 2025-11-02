@@ -21,18 +21,6 @@ spec:
           imagePullPolicy: Never
           ports:
             - containerPort: 8080
-          env:
-            - name: RESOURCES_MS_NAME
-              value: "resources-microservice"
-            - name: RESOURCES_MS_PORT
-              value: "8080"
-            - name: RESOURCES_DB_URL
-              value: "resources-db-service"
-            - name: RESOURCES_DB_PORT
-              value: "5433"
-            - name: SONGS_MS_URL
-              value: "songs-service"
-            - name: SONGS_MS_PORT
-              value: "8081"
-            - name: ENABLE_EUREKA_CLIENT
-              value: "false"
+          envFrom:
+            - configMapRef:
+                name: resources-configmap

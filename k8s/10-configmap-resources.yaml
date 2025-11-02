@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: resources-configmap
+  namespace: k8s-program
+data:
+  RESOURCES_MS_NAME: "resources-microservice"
+  RESOURCES_MS_PORT: "8080"
+  RESOURCES_DB_URL: "resources-db-service"
+  RESOURCES_DB_PORT: "5433"
+  SONGS_MS_URL: "songs-service"
+  SONGS_MS_PORT: "8081"
+  ENABLE_EUREKA_CLIENT: "false"

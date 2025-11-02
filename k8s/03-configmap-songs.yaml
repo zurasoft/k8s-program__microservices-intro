@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: songs-configmap
+  namespace: k8s-program
+data:
+  SONGS_MS_NAME: "songs-microservice"
+  SONGS_MS_PORT: "8081"
+  SONGS_DB_URL: "songs-db-service"
+  SONGS_DB_PORT: "5432"
+  ENABLE_EUREKA_CLIENT: "false"
