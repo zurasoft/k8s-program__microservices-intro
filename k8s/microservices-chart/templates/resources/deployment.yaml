@@ -1,15 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: songs-deployment
-  namespace: k8s-program
+  name: resources-deployment
+  namespace: {{ .Values.namespace }}
   labels:
-    app.kubernetes.io/name: songs-microservice
+    app.kubernetes.io/name: resources-microservice
 spec:
-  replicas: 2
+  replicas: {{ .Values.resourcesService.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: songs-microservice
+      app.kubernetes.io/name: resources-microservice
   minReadySeconds: 10
   strategy:
     type: RollingUpdate
@@ -19,20 +19,17 @@ spec:
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: songs-microservice
+        app.kubernetes.io/name: resources-microservice
     spec:
       containers:
-        - name: songs-container
-          image: zurasoft/songs-microservice:2.0.0
-          imagePullPolicy: IfNotPresent
+        - name: resources-container
+          image: zurasoft/resources-microservice:2.0.0
+          imagePullPolicy: Never
           ports:
-            - containerPort: 8081
+            - containerPort: 8080
           envFrom:
             - configMapRef:
-                name: songs-configmap
-          volumeMounts:
-            - name: songs-volume
-              mountPath: /app/data
+                name: resources-configmap
           resources:
             requests:
               memory: "512Mi"
@@ -43,7 +40,7 @@ spec:
           startupProbe:
             httpGet:
               path: /actuator/health/liveness
-              port: 8081
+              port: 8080
             initialDelaySeconds: 20
             periodSeconds: 5
             failureThreshold: 40
@@ -51,18 +48,14 @@ spec:
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
-              port: 8081
+              port: 8080
             periodSeconds: 10
             failureThreshold: 3
             timeoutSeconds: 3
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
-              port: 8081
+              port: 8080
             periodSeconds: 5
             failureThreshold: 3
             timeoutSeconds: 3
-      volumes:
-        - name: songs-volume
-          persistentVolumeClaim:
-            claimName: songs-pvc

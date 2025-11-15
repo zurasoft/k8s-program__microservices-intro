@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: songs-db-service
-  namespace: k8s-program
+  namespace: {{ .Values.namespace }}
 spec:
   type: ClusterIP
   selector:
@@ -17,7 +17,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: songs-db
-  namespace: k8s-program
+  namespace: {{ .Values.namespace }}
 spec:
   serviceName: songs-db-service
   replicas: 1

@@ -1,15 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: resources-deployment
-  namespace: k8s-program
+  name: songs-deployment
+  namespace: {{ .Values.namespace }}
   labels:
-    app.kubernetes.io/name: resources-microservice
+    app.kubernetes.io/name: songs-microservice
 spec:
-  replicas: 2
+  replicas: {{ .Values.songService.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: resources-microservice
+      app.kubernetes.io/name: songs-microservice
   minReadySeconds: 10
   strategy:
     type: RollingUpdate
@@ -19,17 +19,20 @@ spec:
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: resources-microservice
+        app.kubernetes.io/name: songs-microservice
     spec:
       containers:
-        - name: resources-container
-          image: zurasoft/resources-microservice:2.0.0
-          imagePullPolicy: Never
+        - name: songs-container
+          image: zurasoft/songs-microservice:2.0.0
+          imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8080
+            - containerPort: 8081
           envFrom:
             - configMapRef:
-                name: resources-configmap
+                name: songs-configmap
+          volumeMounts:
+            - name: songs-volume
+              mountPath: /app/data
           resources:
             requests:
               memory: "512Mi"
@@ -40,7 +43,7 @@ spec:
           startupProbe:
             httpGet:
               path: /actuator/health/liveness
-              port: 8080
+              port: 8081
             initialDelaySeconds: 20
             periodSeconds: 5
             failureThreshold: 40
@@ -48,14 +51,18 @@ spec:
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
-              port: 8080
+              port: 8081
             periodSeconds: 10
             failureThreshold: 3
             timeoutSeconds: 3
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
-              port: 8080
+              port: 8081
             periodSeconds: 5
             failureThreshold: 3
             timeoutSeconds: 3
+      volumes:
+        - name: songs-volume
+          persistentVolumeClaim:
+            claimName: songs-pvc

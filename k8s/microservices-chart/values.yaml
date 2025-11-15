@@ -1,0 +1,7 @@
+namespace: k8s-program
+
+songService:
+  replicaCount: 2
+
+resourcesService:
+  replicaCount: 2
