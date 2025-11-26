@@ -6,11 +6,10 @@ metadata:
   labels:
     app.kubernetes.io/name: resources-microservice
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app.kubernetes.io/name: resources-microservice
   ports:
     - protocol: TCP
       port: 80
       targetPort: 8080
-      nodePort: 30001

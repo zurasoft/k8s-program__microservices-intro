@@ -6,11 +6,10 @@ metadata:
   labels:
     app.kubernetes.io/name: songs-microservice
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app.kubernetes.io/name: songs-microservice
   ports:
     - protocol: TCP
       port: 80
       targetPort: 8081
-      nodePort: 30002
